@@ -1,0 +1,64 @@
+@use '../mixin' as * ;
+.search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      font-size: 1.2rem;
+
+      .logo1{
+        @include logo;
+
+        width: 30px;
+      }
+      
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.5rem;
+      border: 1px solid #ddd;
+      border-radius: $border-radius;
+      font-size: 1rem;
+      transition: border-color $transition-speed, box-shadow $transition-speed;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+      }
+      
+      &::placeholder {
+        color: #aaa;
+      }
+    }
+    
+    .clear-search {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover {
+        color: #666;
+      }
+      
+      .material-icons {
+        font-size: 1.2rem;
+        
+      }
+    }
+  }

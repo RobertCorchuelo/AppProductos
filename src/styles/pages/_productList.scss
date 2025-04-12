@@ -1,0 +1,79 @@
+.product-list-page {
+  padding: 1rem 0;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: $primary-color;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .product-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    @media (min-width: 768px) {
+      justify-content: space-between;
+    }
+    
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
+  }
+  
+  .category-filter {
+    select {
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: $border-radius;
+      font-size: 1rem;
+      background-color: white;
+      min-width: 200px;
+      cursor: pointer;
+      transition: border-color $transition-speed;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+      }
+    }
+  }
+  
+  .no-results {
+    text-align: center;
+    padding: 3rem 0;
+    
+    p {
+      margin-bottom: 1.5rem;
+      color: #666;
+    }
+    
+    button {
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: $border-radius;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color $transition-speed;
+      
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+  
+  .results-count {
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+  }
+}
