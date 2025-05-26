@@ -9,18 +9,23 @@ import clickSound from '../assets/sounds/compra.mp3';
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [localStock, setLocalStock] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [addedToCart, setAddedToCart] = useState(false);
-  
-  // Obtenemos la función para agregar al carrito
+
   const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProductDetail = async () => {
       try {
         const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
-        setProduct(response.data);
+        const productoConStock = { ...response.data, stock: 10 };
+        const savedStock = sessionStorage.getItem(`stock_${id}`);
+        const stock = savedStock !== null ? parseInt(savedStock) : productoConStock.stock;
+
+        setProduct(productoConStock);
+        setLocalStock(stock);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -31,17 +36,24 @@ const ProductDetail = () => {
     fetchProductDetail();
   }, [id]);
 
-  // Función para manejar el clic en "Agregar al carrito"
   const handleAddToCart = () => {
+    if (localStock <= 0) {
+      alert("¡No hay stock disponible!");
+      return;
+    }
+
     const sonido = new Audio(clickSound);
     sonido.play();
-    addToCart(product);
+    addToCart({ ...product });
+
+    setLocalStock(prev => {
+      const newStock = prev - 1;
+      sessionStorage.setItem(`stock_${id}`, newStock);
+      return newStock;
+    });
+
     setAddedToCart(true);
-    
-    // Resetear el mensaje después de 3 segundos
-    setTimeout(() => {
-      setAddedToCart(false);
-    }, 3000);
+    setTimeout(() => setAddedToCart(false), 3000);
   };
 
   if (loading) return <Loader />;
@@ -57,7 +69,8 @@ const ProductDetail = () => {
         <div className="product-detail-info">
           <h1 className="product-detail-title">{product.title}</h1>
           <p className="product-detail-category">Categoría: {product.category}</p>
-          <p className="product-detail-price">Precio: ${product.price.toFixed(2)}</p>
+          <p className="product-detail-price">Precio: ${product.price?.toFixed(2)}</p>
+          <p className="product-detail-stock">Stock disponible: {localStock}</p>
           <div className="product-detail-description">
             <h3>Descripción:</h3>
             <p>{product.description}</p>
@@ -87,4 +100,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetail; 

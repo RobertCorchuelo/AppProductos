@@ -43,13 +43,15 @@ export const CartProvider = ({ children }) => {
   };
 
   // Función para actualizar la cantidad de un producto
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) return;
-    
-    setCartItems(prevItems => 
-      prevItems.map(item => 
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      )
+  const updateQuantity = (id, newQuantity) => {
+    setCartItems(prevItems =>
+      prevItems.map(item => {
+        if (item.id === id) {
+          if (newQuantity > item.stock) return item; // No se actualiza si supera el stock
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      })
     );
   };
 

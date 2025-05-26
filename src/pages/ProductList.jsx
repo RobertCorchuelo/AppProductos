@@ -18,10 +18,18 @@ const ProductList = () => {
       try {
         const response = await axios.get('https://fakestoreapi.com/products');
         setProducts(response.data);
+
         
         // Extraer todas las categorías únicas
         const uniqueCategories = [...new Set(response.data.map(product => product.category))];
         setCategories(uniqueCategories);
+        // Asignar un stock fijo a cada producto
+        const productosConStock = response.data.map(product => ({
+          ...product,
+          stock: 10  // Puedes cambiar este número a lo que quieras
+        }));
+
+        setProducts(productosConStock);
         
         setLoading(false);
       } catch (err) {
