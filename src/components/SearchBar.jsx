@@ -20,7 +20,7 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
         >
             
           <span className="material-icons">
-          asdhasj
+          X
           </span>
         </button>
       )}
